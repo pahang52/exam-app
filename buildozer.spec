@@ -4,19 +4,17 @@ package.name = examdesigner
 package.domain = org.nikzad
 
 source.dir = .
-source.include_exts = py
-
-version = 1.0
+source.include_exts = py,ttf,png
 
 requirements = python3,kivy
 
 orientation = portrait
 
-# دسترسی‌ها
+fullscreen = 0
+
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE
 
-# حالت صفحه
-fullscreen = 0
+android.assets = assets/
 
 [buildozer]
 
