@@ -1,9 +1,12 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.scrollview import ScrollView
+from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from kivy.uix.label import Label
+from kivy.core.text import LabelBase
+
+# فونت فارسی
+LabelBase.register(name="fa", fn_regular="assets/Vazirmatn.ttf")
 
 
 class ExamApp(BoxLayout):
@@ -14,56 +17,55 @@ class ExamApp(BoxLayout):
         self.questions = []
 
         # عنوان
-        self.title = Label(
-            text="برنامه طراحی سوالات - نیکزادفرد",
+        self.add_widget(Label(
+            text="برنامه طراحی سوالات نیکزادفرد",
+            font_name="fa",
             size_hint=(1, 0.1)
-        )
-        self.add_widget(self.title)
+        ))
 
-        # اطلاعات پایه (اختیاری)
-        self.school = TextInput(hint_text="نام مدرسه", size_hint=(1, 0.08))
-        self.student = TextInput(hint_text="نام دانش آموز", size_hint=(1, 0.08))
+        # اطلاعات عمومی
+        self.school = TextInput(hint_text="اداره آموزش و پرورش / مدرسه", size_hint=(1, 0.08))
+        self.student = TextInput(hint_text="نام و نام خانوادگی دانش آموز", size_hint=(1, 0.08))
+        self.father = TextInput(hint_text="نام پدر", size_hint=(1, 0.08))
+        self.grade = TextInput(hint_text="پایه", size_hint=(1, 0.08))
         self.lesson = TextInput(hint_text="نام درس", size_hint=(1, 0.08))
+        self.date = TextInput(hint_text="تاریخ امتحان", size_hint=(1, 0.08))
+        self.teacher = TextInput(hint_text="نام دبیر", size_hint=(1, 0.08))
+        self.term = TextInput(hint_text="نوبت امتحانی", size_hint=(1, 0.08))
 
-        self.add_widget(self.school)
-        self.add_widget(self.student)
-        self.add_widget(self.lesson)
-
-        # نوع سوال
-        self.qtype = TextInput(hint_text="نوع سوال (تستی، تشریحی...)", size_hint=(1, 0.08))
-        self.add_widget(self.qtype)
-
-        # متن سوال
-        self.question = TextInput(hint_text="متن سوال", size_hint=(1, 0.1))
-        self.add_widget(self.question)
-
-        # بارم
+        # سوال
+        self.qtype = TextInput(hint_text="نوع سوال (تستی، صحیح غلط، تشریحی...)", size_hint=(1, 0.08))
+        self.question = TextInput(hint_text="متن سوال", size_hint=(1, 0.12))
         self.score = TextInput(hint_text="بارم (0.25 تا 10)", size_hint=(1, 0.08))
-        self.add_widget(self.score)
+
+        for w in [
+            self.school, self.student, self.father, self.grade,
+            self.lesson, self.date, self.teacher, self.term,
+            self.qtype, self.question, self.score
+        ]:
+            self.add_widget(w)
 
         # دکمه افزودن
-        self.btn_add = Button(text="افزودن سوال", size_hint=(1, 0.1))
-        self.btn_add.bind(on_press=self.add_question)
-        self.add_widget(self.btn_add)
+        self.btn = Button(text="افزودن سوال", size_hint=(1, 0.1))
+        self.btn.bind(on_press=self.add_question)
+        self.add_widget(self.btn)
 
-        # نمایش سوالات
-        self.output = Label(text="لیست سوالات:", size_hint=(1, 0.4))
+        # خروجی
+        self.output = Label(text="سوالات ثبت شده:", font_name="fa")
         self.add_widget(self.output)
 
     def add_question(self, instance):
-        qtype = self.qtype.text
-        qtext = self.question.text
-        score = self.score.text
+        q = self.question.text
+        t = self.qtype.text
+        s = self.score.text
 
-        if qtext and score:
-            self.questions.append(f"{qtype} | {qtext} | بارم: {score}")
+        if q and s:
+            self.questions.append(f"{t} | {q} | بارم: {s}")
+            self.output.text = "\n".join(self.questions)
 
-            self.output.text = "لیست سوالات:\n\n" + "\n".join(self.questions)
-
-            # پاک کردن فیلدها
-            self.qtype.text = ""
             self.question.text = ""
             self.score.text = ""
+            self.qtype.text = ""
 
 
 class MainApp(App):
