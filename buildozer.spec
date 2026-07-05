@@ -12,10 +12,10 @@ requirements = python3,kivy==2.2.1,reportlab,python-docx
 
 orientation = portrait
 
+# مهم: این 3 خط باید اصلاح بشه
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
-android.sdk = 33
 
 android.archs = arm64-v8a, armeabi-v7a
 
