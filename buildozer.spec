@@ -1,27 +1,36 @@
 [app]
-title = Exam Designer
-package.name = examdesigner
-package.domain = org.nikzad
+title = Exam App
+package.name = examapp
+package.domain = org.test
 
 source.dir = .
-source.include_exts = py,png,jpg,ttf
+source.include_exts = py,png,jpg,kv,ttf,txt,ttc,otf
 
-version = 1.0.1
+version = 1.0
 
-requirements = python3,kivy==2.2.1,reportlab,python-docx
+# مهم برای جلوگیری از خطای version regex
+version.regex = __version__ = ['"](.*)['"]
+version.filename = %(source.dir)s/main.py
 
 orientation = portrait
+fullscreen = 1
 
-android.api = 33
-android.minapi = 21
+# فایل‌های مورد نیاز پروژه
+requirements = python3,kivy,reportlab,python-docx,docx
 
-# خیلی مهم: اینو تغییر بده
-android.ndk = 25.1.8937393
+# فولدر assets (فونت و عکس‌ها)
+source.include_patterns = assets/*
 
-android.archs = arm64-v8a, armeabi-v7a
-
-android.permissions = WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
+# اجازه دسترسی‌ها (اگر لازم داشتی)
+android.permissions = INTERNET
 
 [buildozer]
 log_level = 2
 warn_on_root = 0
+
+[android]
+
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.arch = arm64-v8a
