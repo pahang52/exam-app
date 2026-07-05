@@ -1,4 +1,4 @@
-name: Build APK (Stable)
+name: Build APK
 
 on:
   push:
@@ -15,9 +15,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build APK
+      - name: Force safe environment
         run: |
-          buildozer -v android debug
+          export BUILDOZER_ALLOW_ROOT=1
+          export PIP_BREAK_SYSTEM_PACKAGES=1
+
+      - name: Build APK (no prompts)
+        run: |
+          yes | buildozer -v android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
