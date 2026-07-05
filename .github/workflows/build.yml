@@ -9,26 +9,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk
+          pip install --upgrade pip
           pip install buildozer cython
+
+      - name: Accept Android licenses
+        run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          yes | sudo apt install -y android-sdk || true
 
       - name: Build APK
         run: |
-          buildozer -v android debug
+          buildozer android debug --verbose
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: exam-apk
+          name: apk
           path: bin/*.apk
