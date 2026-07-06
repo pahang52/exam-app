@@ -126,3 +126,97 @@ class Database:
             FROM questions
         """)
         return self.cur.fetchone()[0] 
+       def update_question(
+        self,
+        qid,
+        lesson,
+        question,
+        option1,
+        option2,
+        option3,
+        option4,
+        answer
+    ):
+        """
+        ویرایش سوال
+        """
+
+        self.cur.execute("""
+        UPDATE questions
+        SET
+            lesson=?,
+            question=?,
+            option1=?,
+            option2=?,
+            option3=?,
+            option4=?,
+            answer=?
+        WHERE id=?
+        """,
+        (
+            lesson,
+            question,
+            option1,
+            option2,
+            option3,
+            option4,
+            answer,
+            qid
+        ))
+
+        self.conn.commit()
+
+
+    def delete_question(self, qid):
+        """
+        حذف سوال
+        """
+
+        self.cur.execute("""
+        DELETE FROM questions
+        WHERE id=?
+        """, (qid,))
+
+        self.conn.commit()
+
+
+    def random_questions(self, lesson, count):
+        """
+        انتخاب تصادفی سوال
+        """
+
+        self.cur.execute("""
+        SELECT *
+        FROM questions
+        WHERE lesson=?
+        ORDER BY RANDOM()
+        LIMIT ?
+        """,
+        (
+            lesson,
+            count
+        ))
+
+        return self.cur.fetchall()
+
+
+    def random_by_type(self, lesson, count):
+        """
+        تابع کمکی برای آزمون ساز
+        """
+
+        return self.random_questions(
+            lesson,
+            count
+        )
+
+
+    def exists(self, qid):
+
+        self.cur.execute("""
+        SELECT COUNT(*)
+        FROM questions
+        WHERE id=?
+        """, (qid,))
+
+        return self.cur.fetchone()[0] > 0
