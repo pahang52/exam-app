@@ -10,7 +10,7 @@ source.include_exts = py,png,jpg,jpeg,kv,atlas,json,txt,ttf,db
 
 version = 1.0
 
-requirements = python3,kivy,reportlab,pillow
+requirements = python3,kivy,kivymd,pillow,python-bidi,arabic-reshaper,fpdf2
 
 orientation = portrait
 
