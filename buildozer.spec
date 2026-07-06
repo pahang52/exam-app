@@ -4,30 +4,32 @@ package.name = examapp
 package.domain = org.example
 
 source.dir = .
-source.include_exts = py,png,jpg,jpeg,kv,ttf,otf,txt,json
+source.include_exts = py,png,jpg,jpeg,kv,ttf,json
 
 version = 1.0
 
-# ❌ مهم: این خط باید وجود نداشته باشد
-# version.regex =
+# 🔥 خیلی مهم: فقط همین
+# version.regex حذف شده
 
-requirements = python3,kivy,reportlab,python-docx
+requirements = python3,kivy==2.2.1,pillow,reportlab
 
 orientation = portrait
 fullscreen = 1
 
+# اندروید
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
-
 android.archs = arm64-v8a, armeabi-v7a
 
-# فونت‌ها / assets
-source.include_patterns = assets/*
+# مهم برای جلوگیری از error های buildozer
+android.bootstrap = sdl2
 
-# اگر از webview یا permission استفاده کردی:
+# دسترسی‌ها
 android.permissions = INTERNET
 
-# build settings
+# assets
+source.include_patterns = assets/*
+
 log_level = 2
 warn_on_root = 1
