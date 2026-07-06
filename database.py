@@ -220,3 +220,78 @@ class Database:
         """, (qid,))
 
         return self.cur.fetchone()[0] > 0
+         def get_lessons(self):
+        """
+        دریافت لیست درس‌ها
+        """
+
+        self.cur.execute("""
+        SELECT DISTINCT lesson
+        FROM questions
+        ORDER BY lesson
+        """)
+
+        return [row[0] for row in self.cur.fetchall()]
+
+
+    def clear_database(self):
+        """
+        حذف تمام سوالات
+        """
+
+        self.cur.execute("""
+        DELETE FROM questions
+        """)
+
+        self.conn.commit()
+
+
+    def import_questions(self, data):
+        """
+        ورود گروهی سوالات
+        data = [
+            (
+                lesson,
+                question,
+                option1,
+                option2,
+                option3,
+                option4,
+                answer
+            )
+        ]
+        """
+
+        self.cur.executemany("""
+        INSERT INTO questions(
+            lesson,
+            question,
+            option1,
+            option2,
+            option3,
+            option4,
+            answer
+        )
+        VALUES(?,?,?,?,?,?,?)
+        """, data)
+
+        self.conn.commit()
+
+
+    def export_questions(self):
+
+        self.cur.execute("""
+        SELECT *
+        FROM questions
+        ORDER BY lesson,id
+        """)
+
+        return self.cur.fetchall()
+
+
+    def __del__(self):
+
+        try:
+            self.conn.close()
+        except:
+            pass

@@ -1,0 +1,129 @@
+#:kivy 2.3.0
+
+ScreenManagement:
+
+<HomeScreen>:
+    name: "home"
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 20
+
+        Label:
+            text: "Exam Designer Pro"
+            font_size: 28
+
+        Button:
+            text: "افزودن سوال"
+            on_release:
+                app.root.current="add"
+
+        Button:
+            text: "بانک سوالات"
+            on_release:
+                app.root.current="list"
+
+        Button:
+            text: "ساخت آزمون"
+
+        Button:
+            text: "خروج"
+
+
+<AddQuestionScreen>:
+    name: "add"
+
+    ScrollView:
+
+        GridLayout:
+            cols:1
+            spacing:10
+            padding:20
+            size_hint_y:None
+            height:self.minimum_height
+
+            TextInput:
+                id: lesson
+                hint_text:"نام درس"
+
+            TextInput:
+                id: question
+                hint_text:"متن سوال"
+                multiline:True
+
+            TextInput:
+                id: option1
+                hint_text:"گزینه ۱"
+
+            TextInput:
+                id: option2
+                hint_text:"گزینه ۲"
+
+            TextInput:
+                id: option3
+                hint_text:"گزینه ۳"
+
+            TextInput:
+                id: option4
+                hint_text:"گزینه ۴"
+
+            TextInput:
+                id: answer
+                hint_text:"شماره پاسخ صحیح"
+
+            Label:
+                text: root.status
+                size_hint_y:None
+                height:40
+
+            Button:
+                text:"ذخیره سوال"
+                on_release:
+                    root.save_question()
+
+            Button:
+                text:"بازگشت"
+                on_release:
+                    app.root.current="home"
+
+
+<QuestionListScreen>:
+    name:"list"
+
+    BoxLayout:
+        orientation:"vertical"
+
+        ScrollView:
+
+            Label:
+                id: questions_label
+                text:""
+                size_hint_y:None
+                height:self.texture_size[1]
+                text_size:self.width,None
+
+        TextInput:
+            id: delete_id
+            hint_text:"شناسه جهت حذف"
+            size_hint_y:None
+            height:45
+
+        Label:
+            text:root.status
+            size_hint_y:None
+            height:35
+
+        Button:
+            text:"حذف سوال"
+            size_hint_y:None
+            height:50
+            on_release:
+                root.delete_question()
+
+        Button:
+            text:"بازگشت"
+            size_hint_y:None
+            height:50
+            on_release:
+                app.root.current="home"
