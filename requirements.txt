@@ -1,1 +1,1 @@
- python3,kivy,reportlab
+requirements = python3,kivy,pillow,reportlab
