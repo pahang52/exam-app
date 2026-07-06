@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build APK
 
 on:
   workflow_dispatch:
@@ -8,31 +8,40 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    container:
-      image: kivy/buildozer:latest
-
-    env:
-      BUILDOZER_ALLOW_ROOT: "1"
-      PIP_BREAK_SYSTEM_PACKAGES: "1"
+    runs-on: ubuntu-22.04
 
     steps:
+      - uses: actions/checkout@v4
 
-      - name: Checkout source
-        uses: actions/checkout@v4
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-      - name: Show versions
+      - name: Cache Buildozer
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.buildozer
+            ~/.gradle
+          key: buildozer-${{ runner.os }}
+
+      - name: Install dependencies
         run: |
-          python3 --version
-          buildozer --version
+          sudo apt update
+          sudo apt install -y zip unzip git python3-pip build-essential
+          pip3 install --upgrade pip
+          pip3 install cython==0.29.37 buildozer
 
-      - name: Build Debug APK
+      - name: Build APK
+        env:
+          BUILDOZER_ALLOW_ROOT: 1
         run: |
           yes | buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: ExamDesignerPro
+          name: APK
           path: bin/*.apk
