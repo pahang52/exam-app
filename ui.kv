@@ -2,6 +2,7 @@
 #:set FONT "assets/Vazirmatn.ttf"
 
 ScreenManagement:
+
 <HomeScreen>:
     name: "home"
 
@@ -11,34 +12,32 @@ ScreenManagement:
         padding: 20
 
         Label:
-            id: lbl_title
             text: "Exam Designer Pro"
             font_name: FONT
             font_size: 28
 
         Button:
-            id: btn_add
-            text: ""
+            text: "افزودن سوال"
             font_name: FONT
             on_release:
                 app.root.current = "add"
 
         Button:
-            id: btn_list
-            text: ""
+            text: "بانک سوالات"
             font_name: FONT
             on_release:
                 app.root.current = "list"
 
         Button:
-            id: btn_exam
-            text: ""
+            text: "ساخت آزمون"
             font_name: FONT
 
         Button:
-            id: btn_exit
-            text: ""
+            text: "خروج"
             font_name: FONT
+            on_release:
+                app.stop()
+
 
 <AddQuestionScreen>:
     name: "add"
@@ -56,37 +55,43 @@ ScreenManagement:
                 id: lesson
                 hint_text: "نام درس"
                 font_name: FONT
+                multiline: False
 
             TextInput:
                 id: question
                 hint_text: "متن سوال"
-                multiline: True
                 font_name: FONT
+                multiline: True
 
             TextInput:
                 id: option1
                 hint_text: "گزینه ۱"
                 font_name: FONT
+                multiline: False
 
             TextInput:
                 id: option2
                 hint_text: "گزینه ۲"
                 font_name: FONT
+                multiline: False
 
             TextInput:
                 id: option3
                 hint_text: "گزینه ۳"
                 font_name: FONT
+                multiline: False
 
             TextInput:
                 id: option4
                 hint_text: "گزینه ۴"
                 font_name: FONT
-
-            TextInput:
+                multiline: False
+ 
+                        TextInput:
                 id: answer
                 hint_text: "شماره پاسخ صحیح"
                 font_name: FONT
+                multiline: False
 
             Label:
                 text: root.status
@@ -112,6 +117,8 @@ ScreenManagement:
 
     BoxLayout:
         orientation: "vertical"
+        spacing: 10
+        padding: 10
 
         ScrollView:
 
@@ -123,18 +130,22 @@ ScreenManagement:
                 height: self.texture_size[1]
                 text_size: self.width, None
 
+
         TextInput:
             id: delete_id
             hint_text: "شناسه جهت حذف"
             font_name: FONT
             size_hint_y: None
             height: 45
+            multiline: False
+
 
         Label:
             text: root.status
             font_name: FONT
             size_hint_y: None
             height: 35
+
 
         Button:
             text: "حذف سوال"
@@ -143,6 +154,7 @@ ScreenManagement:
             height: 50
             on_release:
                 root.delete_question()
+
 
         Button:
             text: "بازگشت"
