@@ -19,22 +19,30 @@ ScreenManagement:
         Button:
             text: "افزودن سوال"
             font_name: FONT
+            size_hint_y: None
+            height: 50
             on_release:
                 app.root.current = "add"
 
         Button:
             text: "بانک سوالات"
             font_name: FONT
+            size_hint_y: None
+            height: 50
             on_release:
                 app.root.current = "list"
 
         Button:
             text: "ساخت آزمون"
             font_name: FONT
+            size_hint_y: None
+            height: 50
 
         Button:
             text: "خروج"
             font_name: FONT
+            size_hint_y: None
+            height: 50
             on_release:
                 app.stop()
 
@@ -62,6 +70,8 @@ ScreenManagement:
                 hint_text: "متن سوال"
                 font_name: FONT
                 multiline: True
+                size_hint_y: None
+                height: 120
 
             TextInput:
                 id: option1
@@ -86,10 +96,10 @@ ScreenManagement:
                 hint_text: "گزینه ۴"
                 font_name: FONT
                 multiline: False
- 
-                        TextInput:
+
+            TextInput:
                 id: answer
-                hint_text: "شماره پاسخ صحیح"
+                hint_text: "شماره پاسخ صحیح (1 تا 4)"
                 font_name: FONT
                 multiline: False
 
@@ -102,12 +112,16 @@ ScreenManagement:
             Button:
                 text: "ذخیره سوال"
                 font_name: FONT
+                size_hint_y: None
+                height: 50
                 on_release:
                     root.save_question()
 
             Button:
                 text: "بازگشت"
                 font_name: FONT
+                size_hint_y: None
+                height: 50
                 on_release:
                     app.root.current = "home"
 
@@ -121,31 +135,27 @@ ScreenManagement:
         padding: 10
 
         ScrollView:
-
             Label:
                 id: questions_label
                 text: ""
                 font_name: FONT
+                text_size: self.width, None
                 size_hint_y: None
                 height: self.texture_size[1]
-                text_size: self.width, None
-
 
         TextInput:
             id: delete_id
             hint_text: "شناسه جهت حذف"
             font_name: FONT
+            multiline: False
             size_hint_y: None
             height: 45
-            multiline: False
-
 
         Label:
             text: root.status
             font_name: FONT
             size_hint_y: None
             height: 35
-
 
         Button:
             text: "حذف سوال"
@@ -154,7 +164,6 @@ ScreenManagement:
             height: 50
             on_release:
                 root.delete_question()
-
 
         Button:
             text: "بازگشت"
