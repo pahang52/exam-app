@@ -3,9 +3,18 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 
+import arabic_reshaper
+from bidi.algorithm import get_display
+
 from database import Database
 
 db = Database()
+
+
+def fa(text):
+    if not text:
+        return ""
+    return get_display(arabic_reshaper.reshape(str(text)))
 
 
 class HomeScreen(Screen):
@@ -29,19 +38,19 @@ class AddQuestionScreen(Screen):
         answer = self.ids.answer.text.strip()
 
         if lesson == "":
-            self.status = "نام درس را وارد کنید."
+            self.status = fa("نام درس را وارد کنید.")
             return
 
         if question == "":
-            self.status = "متن سؤال را وارد کنید."
+            self.status = fa("متن سؤال را وارد کنید.")
             return
 
         if option1 == "" or option2 == "" or option3 == "" or option4 == "":
-            self.status = "همه گزینه‌ها را وارد کنید."
+            self.status = fa("همه گزینه‌ها را وارد کنید.")
             return
 
         if answer not in ("1", "2", "3", "4"):
-            self.status = "پاسخ صحیح باید عدد 1 تا 4 باشد."
+            self.status = fa("پاسخ صحیح باید عدد 1 تا 4 باشد.")
             return
 
         db.add_question(
@@ -62,7 +71,7 @@ class AddQuestionScreen(Screen):
         self.ids.option4.text = ""
         self.ids.answer.text = ""
 
-        self.status = "سؤال با موفقیت ذخیره شد."
+        self.status = fa("سؤال با موفقیت ذخیره شد.")
 
 
 class QuestionListScreen(Screen):
@@ -80,14 +89,14 @@ class QuestionListScreen(Screen):
         txt = ""
 
         if not self.questions:
-            txt = "بانک سوال خالی است."
+            txt = fa("بانک سؤال خالی است.")
         else:
             for q in self.questions:
                 txt += (
                     f"ID: {q[0]}\n"
-                    f"درس: {q[1]}\n"
-                    f"{q[2]}\n"
-                    f"----------------------\n"
+                    f"{fa('درس')}: {fa(q[1])}\n"
+                    f"{fa(q[2])}\n"
+                    "----------------------\n"
                 )
 
         self.ids.questions_label.text = txt
@@ -97,21 +106,21 @@ class QuestionListScreen(Screen):
         qid = self.ids.delete_id.text.strip()
 
         if qid == "":
-            self.status = "شناسه را وارد کنید."
+            self.status = fa("شناسه را وارد کنید.")
             return
 
         if not qid.isdigit():
-            self.status = "شناسه نامعتبر است."
+            self.status = fa("شناسه نامعتبر است.")
             return
 
         if not db.exists(int(qid)):
-            self.status = "این شناسه وجود ندارد."
+            self.status = fa("این شناسه وجود ندارد.")
             return
 
         db.delete_question(int(qid))
 
         self.ids.delete_id.text = ""
-        self.status = "سؤال حذف شد."
+        self.status = fa("سؤال حذف شد.")
 
         self.load_questions()
 
