@@ -18,8 +18,12 @@ def fa(text):
 
 
 class HomeScreen(Screen):
-    pass
 
+    def on_enter(self):
+        self.ids.btn_add.text = fa("افزودن سؤال")
+        self.ids.btn_list.text = fa("بانک سؤالات")
+        self.ids.btn_exam.text = fa("ساخت آزمون")
+        self.ids.btn_exit.text = fa("خروج")
 
 class AddQuestionScreen(Screen):
 
