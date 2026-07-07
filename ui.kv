@@ -2,7 +2,6 @@
 #:set FONT "assets/Vazirmatn.ttf"
 
 ScreenManagement:
-
 <HomeScreen>:
     name: "home"
 
@@ -12,30 +11,34 @@ ScreenManagement:
         padding: 20
 
         Label:
+            id: lbl_title
             text: "Exam Designer Pro"
             font_name: FONT
             font_size: 28
 
         Button:
-            text: "افزودن سوال"
+            id: btn_add
+            text: ""
             font_name: FONT
             on_release:
                 app.root.current = "add"
 
         Button:
-            text: "بانک سوالات"
+            id: btn_list
+            text: ""
             font_name: FONT
             on_release:
                 app.root.current = "list"
 
         Button:
-            text: "ساخت آزمون"
+            id: btn_exam
+            text: ""
             font_name: FONT
 
         Button:
-            text: "خروج"
+            id: btn_exit
+            text: ""
             font_name: FONT
-
 
 <AddQuestionScreen>:
     name: "add"
