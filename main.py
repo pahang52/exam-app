@@ -1,3 +1,11 @@
+import sys
+import traceback
+
+def handle_exception(exc_type, exc_value, exc_traceback):
+    with open("/sdcard/exam_app_crash.txt", "w", encoding="utf-8") as f:
+        traceback.print_exception(exc_type, exc_value, exc_traceback, file=f)
+
+sys.excepthook = handle_exception
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
