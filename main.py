@@ -3,27 +3,15 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 
-import arabic_reshaper
-from bidi.algorithm import get_display
-
 from database import Database
 from utils.persian import fa
+
 db = Database()
 
 
-def fa(text):
-    if not text:
-        return ""
-    return get_display(arabic_reshaper.reshape(str(text)))
-
-
 class HomeScreen(Screen):
+    pass
 
-    def on_enter(self):
-        self.ids.btn_add.text = fa("افزودن سؤال")
-        self.ids.btn_list.text = fa("بانک سؤالات")
-        self.ids.btn_exam.text = fa("ساخت آزمون")
-        self.ids.btn_exit.text = fa("خروج")
 
 class AddQuestionScreen(Screen):
 
