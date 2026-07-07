@@ -1,5 +1,5 @@
 import sqlite3
-import random
+
 DB_NAME = "questions.db"
 
 
@@ -24,128 +24,224 @@ class Database:
         )
         """)
         self.conn.commit()
-    # ---------------- ADD ----------------
-    def add_question(self, lesson, question, option1, option2, option3, option4, answer):
+
+    def add_question(
+        self,
+        lesson,
+        question,
+        option1,
+        option2,
+        option3,
+        option4,
+        answer
+    ):
+
         self.cur.execute("""
-        INSERT INTO questions (
-            lesson, question, option1, option2, option3, option4, answer
-        ) VALUES (?,?,?,?,?,?,?)
-        """, (lesson, question, option1, option2, option3, option4, answer))
+        INSERT INTO questions(
+            lesson,
+            question,
+            option1,
+            option2,
+            option3,
+            option4,
+            answer
+        )
+        VALUES(?,?,?,?,?,?,?)
+        """,
+        (
+            lesson,
+            question,
+            option1,
+            option2,
+            option3,
+            option4,
+            answer
+        ))
+
         self.conn.commit()
 
-
-    def close(self):
-        self.conn.close()
-
-    # ---------------- GET ----------------
-
-    # ---------------- GET ALL ----------------
     def get_all_questions(self):
-        self.cur.execute("SELECT * FROM questions ORDER BY id DESC")
+
+        self.cur.execute("""
+        SELECT *
+        FROM questions
+        ORDER BY id DESC
+        """)
+
         return self.cur.fetchall()
 
-    # ---------------- GET BY LESSON ----------------
     def get_questions_by_lesson(self, lesson):
+
         self.cur.execute("""
-        SELECT * FROM questions
+        SELECT *
+        FROM questions
         WHERE lesson=?
         ORDER BY RANDOM()
         """, (lesson,))
+
         return self.cur.fetchall()
 
-    # ---------------- GET ONE ----------------
     def get_question(self, qid):
-        self.cur.execute("SELECT * FROM questions WHERE id=?", (qid,))
+
+        self.cur.execute("""
+        SELECT *
+        FROM questions
+        WHERE id=?
+        """, (qid,))
+
         return self.cur.fetchone()
 
-    # ---------------- SEARCH ----------------
     def search(self, text):
+
         self.cur.execute("""
-        SELECT * FROM questions
+        SELECT *
+        FROM questions
         WHERE question LIKE ?
         ORDER BY id DESC
         """, (f"%{text}%",))
+
         return self.cur.fetchall()
-    # ---------------- COUNT ----------------
+
     def count(self):
-        self.cur.execute("SELECT COUNT(*) FROM questions")
+
+        self.cur.execute("""
+        SELECT COUNT(*)
+        FROM questions
+        """)
+
         return self.cur.fetchone()[0]
 
-    # ---------------- UPDATE / DELETE ----------------
-    # ---------------- UPDATE ----------------
-    def update_question(self, qid, lesson, question, option1, option2, option3, option4, answer):
+    def update_question(
+        self,
+        qid,
+        lesson,
+        question,
+        option1,
+        option2,
+        option3,
+        option4,
+        answer
+    ):
+
         self.cur.execute("""
-        UPDATE questions SET
-            lesson=?, question=?, option1=?, option2=?, option3=?, option4=?, answer=?
+        UPDATE questions
+        SET
+            lesson=?,
+            question=?,
+            option1=?,
+            option2=?,
+            option3=?,
+            option4=?,
+            answer=?
         WHERE id=?
-        """, (lesson, question, option1, option2, option3, option4, answer, qid))
+        """,
+        (
+            lesson,
+            question,
+            option1,
+            option2,
+            option3,
+            option4,
+            answer,
+            qid
+        ))
+
         self.conn.commit()
 
-    # ---------------- DELETE ----------------
     def delete_question(self, qid):
-        self.cur.execute("DELETE FROM questions WHERE id=?", (qid,))
+
+        self.cur.execute("""
+        DELETE FROM questions
+        WHERE id=?
+        """, (qid,))
+
         self.conn.commit()
 
-    # ---------------- RANDOM ----------------
     def random_questions(self, lesson, count):
+
         self.cur.execute("""
-        SELECT * FROM questions
+        SELECT *
+        FROM questions
         WHERE lesson=?
         ORDER BY RANDOM()
         LIMIT ?
-        """, (lesson, count))
+        """,
+        (
+            lesson,
+            count
+        ))
+
         return self.cur.fetchall()
 
     def random_by_type(self, lesson, count):
-        return self.random_questions(lesson, count)
+
+        return self.random_questions(
+            lesson,
+            count
+        )
 
     def exists(self, qid):
-        self.cur.execute("SELECT COUNT(*) FROM questions WHERE id=?", (qid,))
+
+        self.cur.execute("""
+        SELECT COUNT(*)
+        FROM questions
+        WHERE id=?
+        """, (qid,))
+
         return self.cur.fetchone()[0] > 0
 
-    # ---------------- EXTRA ----------------
-
-    # ---------------- EXISTS ----------------
-    def exists(self, qid):
-        self.cur.execute("SELECT COUNT(*) FROM questions WHERE id=?", (qid,))
-        return self.cur.fetchone()[0] > 0
-
-    # ---------------- LESSONS ----------------
     def get_lessons(self):
-        self.cur.execute("SELECT DISTINCT lesson FROM questions ORDER BY lesson")
+
+        self.cur.execute("""
+        SELECT DISTINCT lesson
+        FROM questions
+        ORDER BY lesson
+        """)
+
         return [row[0] for row in self.cur.fetchall()]
-    # ---------------- CLEAR ----------------
+
     def clear_database(self):
-        self.cur.execute("DELETE FROM questions")
+
+        self.cur.execute("""
+        DELETE FROM questions
+        """)
+
         self.conn.commit()
-    def export_questions(self):
-        self.cur.execute("SELECT * FROM questions ORDER BY lesson, id")
-        return self.cur.fetchall()
 
     def import_questions(self, data):
+
         self.cur.executemany("""
         INSERT INTO questions(
-            lesson, question, option1, option2, option3, option4, answer
-        ) VALUES (?,?,?,?,?,?,?)
+            lesson,
+            question,
+            option1,
+            option2,
+            option3,
+            option4,
+            answer
+        )
+        VALUES(?,?,?,?,?,?,?)
         """, data)
+
         self.conn.commit()
 
-    # ---------------- IMPORT ----------------
-    def import_questions(self, data):
-        self.cur.executemany("""
-        INSERT INTO questions(
-            lesson, question, option1, option2, option3, option4, answer
-        ) VALUES (?,?,?,?,?,?,?)
-        """, data)
-        self.conn.commit()
-
-    # ---------------- EXPORT ----------------
     def export_questions(self):
-        self.cur.execute("SELECT * FROM questions ORDER BY lesson,id")
+
+        self.cur.execute("""
+        SELECT *
+        FROM questions
+        ORDER BY lesson,id
+        """)
+
         return self.cur.fetchall()
+
+    def close(self):
+
+        self.conn.close()
 
     def __del__(self):
+
         try:
             self.conn.close()
-        except:
+        except Exception:
             pass
