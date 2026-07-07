@@ -7,7 +7,7 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 
 from database import Database
-
+from utils.persian import fa
 db = Database()
 
 
