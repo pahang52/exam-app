@@ -1,4 +1,5 @@
 #:kivy 2.3.0
+#:set FONT "assets/Vazirmatn.ttf"
 
 ScreenManagement:
 
@@ -12,23 +13,28 @@ ScreenManagement:
 
         Label:
             text: "Exam Designer Pro"
+            font_name: FONT
             font_size: 28
 
         Button:
             text: "افزودن سوال"
+            font_name: FONT
             on_release:
-                app.root.current="add"
+                app.root.current = "add"
 
         Button:
             text: "بانک سوالات"
+            font_name: FONT
             on_release:
-                app.root.current="list"
+                app.root.current = "list"
 
         Button:
             text: "ساخت آزمون"
+            font_name: FONT
 
         Button:
             text: "خروج"
+            font_name: FONT
 
 
 <AddQuestionScreen>:
@@ -37,93 +43,108 @@ ScreenManagement:
     ScrollView:
 
         GridLayout:
-            cols:1
-            spacing:10
-            padding:20
-            size_hint_y:None
-            height:self.minimum_height
+            cols: 1
+            spacing: 10
+            padding: 20
+            size_hint_y: None
+            height: self.minimum_height
 
             TextInput:
                 id: lesson
-                hint_text:"نام درس"
+                hint_text: "نام درس"
+                font_name: FONT
 
             TextInput:
                 id: question
-                hint_text:"متن سوال"
-                multiline:True
+                hint_text: "متن سوال"
+                multiline: True
+                font_name: FONT
 
             TextInput:
                 id: option1
-                hint_text:"گزینه ۱"
+                hint_text: "گزینه ۱"
+                font_name: FONT
 
             TextInput:
                 id: option2
-                hint_text:"گزینه ۲"
+                hint_text: "گزینه ۲"
+                font_name: FONT
 
             TextInput:
                 id: option3
-                hint_text:"گزینه ۳"
+                hint_text: "گزینه ۳"
+                font_name: FONT
 
             TextInput:
                 id: option4
-                hint_text:"گزینه ۴"
+                hint_text: "گزینه ۴"
+                font_name: FONT
 
             TextInput:
                 id: answer
-                hint_text:"شماره پاسخ صحیح"
+                hint_text: "شماره پاسخ صحیح"
+                font_name: FONT
 
             Label:
                 text: root.status
-                size_hint_y:None
-                height:40
+                font_name: FONT
+                size_hint_y: None
+                height: 40
 
             Button:
-                text:"ذخیره سوال"
+                text: "ذخیره سوال"
+                font_name: FONT
                 on_release:
                     root.save_question()
 
             Button:
-                text:"بازگشت"
+                text: "بازگشت"
+                font_name: FONT
                 on_release:
-                    app.root.current="home"
+                    app.root.current = "home"
 
 
 <QuestionListScreen>:
-    name:"list"
+    name: "list"
 
     BoxLayout:
-        orientation:"vertical"
+        orientation: "vertical"
 
         ScrollView:
 
             Label:
                 id: questions_label
-                text:""
-                size_hint_y:None
-                height:self.texture_size[1]
-                text_size:self.width,None
+                text: ""
+                font_name: FONT
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
 
         TextInput:
             id: delete_id
-            hint_text:"شناسه جهت حذف"
-            size_hint_y:None
-            height:45
+            hint_text: "شناسه جهت حذف"
+            font_name: FONT
+            size_hint_y: None
+            height: 45
 
         Label:
-            text:root.status
-            size_hint_y:None
-            height:35
+            text: root.status
+            font_name: FONT
+            size_hint_y: None
+            height: 35
 
         Button:
-            text:"حذف سوال"
-            size_hint_y:None
-            height:50
+            text: "حذف سوال"
+            font_name: FONT
+            size_hint_y: None
+            height: 50
             on_release:
                 root.delete_question()
 
         Button:
-            text:"بازگشت"
-            size_hint_y:None
-            height:50
+            text: "بازگشت"
+            font_name: FONT
+            size_hint_y: None
+            height: 50
             on_release:
-                app.root.current="home"
+                app.root.current = "home"
